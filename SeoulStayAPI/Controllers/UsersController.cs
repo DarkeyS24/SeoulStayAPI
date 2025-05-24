@@ -9,7 +9,7 @@ namespace SeoulStayAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext db;
+        private AppDbContext db;
 
         public UsersController(AppDbContext context)
         {
@@ -19,12 +19,21 @@ namespace SeoulStayAPI.Controllers
         [HttpPost]
         public ActionResult PostUser(User newUser)
         {
-            var user = db.Users.FirstOrDefault(u => u.Username == newUser.Username && u.Password == newUser.Password);
-            if (user == null)
+            if (newUser == null)
             {
-                return NotFound("No");
+                return BadRequest("User is empty");
             }
-            return Ok("Yes");
+
+            if (db != null)
+            {
+                var user = db.Users.FirstOrDefault(u => u.Username == newUser.Username && u.Password == newUser.Password);
+                if (user == null)
+                {
+                    return NotFound("No");
+                }
+                return Ok("Yes");
+            }
+            return BadRequest("Erro ao conectar ao banco de dados");
         }
 
     }

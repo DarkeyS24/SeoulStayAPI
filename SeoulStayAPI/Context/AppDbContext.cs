@@ -15,7 +15,7 @@ namespace SeoulStayAPI.Context
             mb.Entity<User>(u =>
             { 
                 u.HasKey(user => user.Id);
-                u.Property(user => user.Guid).IsRequired().HasColumnType("varchar(36)");
+                u.Property(user => user.Guid).IsRequired().HasColumnType("uniqueidentifier");
                 u.Property(user => user.UserTypeId).IsRequired();
                 u.Property(user => user.Username).IsRequired().HasMaxLength(50).HasColumnType("varchar(50)");
                 u.Property(user => user.Password).IsRequired().HasMaxLength(100).HasColumnType("varchar(100)");
